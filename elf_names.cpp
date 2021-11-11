@@ -1,4 +1,19 @@
+/*
+ * Analyzing ELF files
+ * CSF Assignment 4
+ * 
+ * Nick Lu
+ * tlu32@jhu.edu
+ * 
+ * Jiarui Chen
+ * jchen324@jhu.edu
+ */
+
 #include "elf_names.h"
+#include <elf.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 struct MagicValue {
   uint16_t value;
@@ -110,4 +125,18 @@ const char *get_endian(uint16_t value) {
     return "Big endian";
   }
   return "ERROR";
+}
+
+// print section name
+void print_section_name(Elf64_Ehdr *elf_header, int i) {
+  unsigned char *data = (unsigned char *)elf_header;
+  unsigned char *sec_header_data = data + elf_header->e_shoff;
+  Elf64_Shdr *curr_section = (Elf64_Shdr*)(sec_header_data + elf_header->e_shentsize * i);
+  Elf64_Shdr *section_name_table = (Elf64_Shdr*)(elf_header->e_shentsize * elf_header->e_shstrndx + sec_header_data);
+  printf("Section header %d: name=%s\n", i, data + section_name_table->sh_offset + curr_section->sh_name);
+}
+
+// print section type
+void print_section_type(Elf64_Ehdr *elf_header, int i) {
+
 }

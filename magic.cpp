@@ -78,9 +78,9 @@ int main(int argc, char **argv) {
   cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
   
   // iterate through sections
-  for (size_t i = 0; i < elf_header->e_shnum; i++)
+  for (int i = 0; i < elf_header->e_shnum; i++)
   {
-    /* code */
+    print_section_name(elf_header, i);
   }
   
   

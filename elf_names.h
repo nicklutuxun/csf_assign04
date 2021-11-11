@@ -1,3 +1,14 @@
+/*
+ * Analyzing ELF files
+ * CSF Assignment 4
+ * 
+ * Nick Lu
+ * tlu32@jhu.edu
+ * 
+ * Jiarui Chen
+ * jchen324@jhu.edu
+ */
+
 #ifndef ELF_NAMES_H
 #define ELF_NAMES_H
 

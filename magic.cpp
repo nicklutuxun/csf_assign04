@@ -1,3 +1,14 @@
+/*
+ * Analyzing ELF files
+ * CSF Assignment 4
+ * 
+ * Nick Lu
+ * tlu32@jhu.edu
+ * 
+ * Jiarui Chen
+ * jchen324@jhu.edu
+ */
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -66,6 +77,11 @@ int main(int argc, char **argv) {
   cout << "Instruction set: " << get_machine_name(elf_header->e_machine) << endl;
   cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
   
+  // iterate through sections
+  for (size_t i = 0; i < elf_header->e_shnum; i++)
+  {
+    /* code */
+  }
   
   
 }

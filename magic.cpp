@@ -58,8 +58,14 @@ int main(int argc, char **argv) {
 
   if (!(elf_header->e_ident[0] == 0x7f && elf_header->e_ident[1] == 'E' && elf_header->e_ident[2] == 'L' &&  elf_header->e_ident[3] == 'F' )) {
     cout << "Not an ELF file" << endl;
-    return 1;
-  } 
-  printf(".shstrtab section index is %u\n", elf_header->e_shstrndx);
+    exit(0);
+  }
 
+  printf(".shstrtab section index is %u\n", elf_header->e_shstrndx);
+  cout << "Object file type: " << get_type_name(elf_header->e_type) << endl;
+  cout << "Instruction set: " << get_machine_name(elf_header->e_machine) << endl;
+  cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
+  
+  
+  
 }

@@ -17,4 +17,4 @@ solution.zip : Makefile magic.cpp elf_names.cpp elf_names.h README.txt
 	zip -9r $@ Makefile magic.cpp elf_names.cpp elf_names.h README.txt
 
 clean :
-	rm -f *.o magic solution.zip
+	rm -f magic.o elf_names.o magic solution.zip

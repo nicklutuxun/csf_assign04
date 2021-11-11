@@ -11,8 +11,55 @@
 #include <sys/unistd.h>
 #include <fcntl.h>
 
+#include <iostream>
+
 #include "elf_names.h"
 
+using std::cout;
+using std::endl;
+
+
 int main(int argc, char **argv) {
-  // TODO: implement
+  char* filename = argv[1];
+  
+  if (argc != 2) {
+    cout << "Wrong command argument" << endl;
+    return 1;
+  }
+
+  int fd = open(filename, O_RDONLY);
+
+  if (fd < 0) {
+    // error
+    cout << "The file cannot be opened." << endl;
+    return 1;
+  }
+
+
+  struct stat statbuf;
+  size_t file_size;
+  int rc = fstat(fd, &statbuf);
+  if (rc != 0) {
+    // error
+    cout << "An error occurred when calling fstat." << endl;
+    return 1;
+  } 
+  else file_size = statbuf.st_size;
+
+  void *data = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+
+  if (data == NULL) {
+    cout << "Error with memory mapping" << endl;
+    return 1;
+  }
+
+
+  Elf64_Ehdr *elf_header = (Elf64_Ehdr *) data;
+
+  if (!(elf_header->e_ident[0] == 0x7f && elf_header->e_ident[1] == 'E' && elf_header->e_ident[2] == 'L' &&  elf_header->e_ident[3] == 'F' )) {
+    cout << "Not an ELF file" << endl;
+    return 1;
+  } 
+  printf(".shstrtab section index is %u\n", elf_header->e_shstrndx);
+
 }

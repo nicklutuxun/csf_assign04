@@ -99,3 +99,15 @@ const char *get_machine_name(uint16_t value) {
     sizeof(s_machine_names)/sizeof(struct MagicValue);
   return lookup_desc(value, s_machine_names, num_machine_names, "Unknown instruction set");
 }
+
+// translate value of e_indent[EI_DATA] field tp a string
+const char *get_endian(uint16_t value) {
+  if (value == 1)
+  {
+    return  "Little endian";
+  } else if (value == 2)
+  {
+    return "Big endian";
+  }
+  return "ERROR";
+}

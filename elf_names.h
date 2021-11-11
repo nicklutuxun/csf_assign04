@@ -14,6 +14,9 @@ const char *get_type_name(uint16_t value);
 // translate value of e_machine field to a string
 const char *get_machine_name(uint16_t value);
 
+// translate value of e_indent[EI_DATA] field tp a string
+const char *get_endian(uint16_t value);
+
 #ifdef __cplusplus
 }
 #endif

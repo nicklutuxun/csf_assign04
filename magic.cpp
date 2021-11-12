@@ -72,7 +72,6 @@ int main(int argc, char **argv) {
     exit(0);
   }
 
-  printf(".shstrtab section index is %u\n", elf_header->e_shstrndx);
   cout << "Object file type: " << get_type_name(elf_header->e_type) << endl;
   cout << "Instruction set: " << get_machine_name(elf_header->e_machine) << endl;
   cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
@@ -80,8 +79,14 @@ int main(int argc, char **argv) {
   // iterate through sections
   for (int i = 0; i < elf_header->e_shnum; i++)
   {
+    printf("Section header %d: ", i);
     print_section_name(elf_header, i);
+    print_section_type(elf_header, i);
+    print_section_offset(elf_header, i);
+    print_section_size(elf_header, i);
+    
+
+    printf("\n");
   }
-  
   
 }

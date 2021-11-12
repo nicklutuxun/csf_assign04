@@ -29,14 +29,6 @@ const char *get_machine_name(uint16_t value);
 // translate value of e_indent[EI_DATA] field tp a string
 const char *get_endian(uint16_t value);
 
-void print_section_name(Elf64_Ehdr *elf_header, int i);
-
-void print_section_type(Elf64_Ehdr *elf_header, int i);
-
-void print_section_offset(Elf64_Ehdr *elf_header, int i);
-
-void print_section_size(Elf64_Ehdr *elf_header, int i);
-
 #ifdef __cplusplus
 }
 #endif

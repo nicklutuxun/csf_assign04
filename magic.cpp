@@ -77,16 +77,39 @@ int main(int argc, char **argv) {
   cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
   
   // iterate through sections
-  for (int i = 0; i < elf_header->e_shnum; i++)
-  {
-    printf("Section header %d: ", i);
-    print_section_name(elf_header, i);
-    print_section_type(elf_header, i);
-    print_section_offset(elf_header, i);
-    print_section_size(elf_header, i);
-    
 
+  Elf64_Shdr *symtab;
+  Elf64_Shdr *strtab;
+  for (int i = 0; i < (int)(elf_header->e_shnum); i++)
+  {
+
+    unsigned char *data = (unsigned char *)elf_header;
+    unsigned char *sec_header_data = data + elf_header->e_shoff;
+    Elf64_Shdr *curr_section = (Elf64_Shdr*)(sec_header_data + elf_header->e_shentsize * i);
+
+    printf("Section header %d: ", i);
+    Elf64_Shdr *section_name_table = (Elf64_Shdr*)(elf_header->e_shentsize * elf_header->e_shstrndx + sec_header_data);
+    printf("name=%s, ", (char *)data + section_name_table->sh_offset + curr_section->sh_name);
+    printf("type=%lx, ", (long unsigned int)curr_section->sh_type);
+    printf("offset=%lx, ", curr_section->sh_offset);
+    printf("size=%lx", curr_section->sh_size);
+    printf("\n");
+
+    if (strcmp((char*)(data + section_name_table->sh_offset + curr_section->sh_name), ".symtab") == 0) symtab = curr_section;
+    if (strcmp((char*)(data + section_name_table->sh_offset + curr_section->sh_name), ".strtab") == 0) strtab = curr_section;
+  }
+
+  Elf64_Xword entry_size = symtab->sh_entsize;
+  Elf64_Xword total_size = symtab->sh_size;
+  Elf64_Xword total_entry = total_size/entry_size;
+ 
+  for (int i=0; i< (int)total_entry; i++) {
+    Elf64_Sym *symtab_object = (Elf64_Sym *)((unsigned char*)data + symtab->sh_offset + i*entry_size);
+    printf("Symbol %d: ", i);
+    printf("name=%s, ", (char *)data + strtab->sh_offset + symtab_object->st_name);
+    printf("size=%lx, ", (long unsigned int)symtab_object->st_size);
+    printf("info=%lx, ", (long unsigned int)symtab_object->st_info);
+    printf("other=%lx", (long unsigned int)symtab_object->st_other);
     printf("\n");
   }
-  
 }

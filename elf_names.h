@@ -2,7 +2,7 @@
  * Analyzing ELF files
  * CSF Assignment 4
  * 
- * Nick Lu
+ * Tuxun Lu
  * tlu32@jhu.edu
  * 
  * Jiarui Chen

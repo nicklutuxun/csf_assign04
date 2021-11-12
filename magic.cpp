@@ -2,7 +2,7 @@
  * Analyzing ELF files
  * CSF Assignment 4
  * 
- * Nick Lu
+ * Tuxun Lu
  * tlu32@jhu.edu
  * 
  * Jiarui Chen
@@ -76,23 +76,24 @@ int main(int argc, char **argv) {
   cout << "Instruction set: " << get_machine_name(elf_header->e_machine) << endl;
   cout << "Endianness: " << get_endian(elf_header->e_ident[EI_DATA]) << endl;
   
-  // iterate through sections
 
   Elf64_Shdr *symtab;
   Elf64_Shdr *strtab;
+
+  // iterate through section headers
   for (int i = 0; i < (int)(elf_header->e_shnum); i++)
   {
 
-    unsigned char *data = (unsigned char *)elf_header;
-    unsigned char *sec_header_data = data + elf_header->e_shoff;
-    Elf64_Shdr *curr_section = (Elf64_Shdr*)(sec_header_data + elf_header->e_shentsize * i);
+    unsigned char *data = (unsigned char *)elf_header;  // points to the beginning of elf file
+    unsigned char *sec_header_data = data + elf_header->e_shoff;  // points to the beginning of the first section header
+    Elf64_Shdr *curr_section = (Elf64_Shdr*)(sec_header_data + elf_header->e_shentsize * i);  // pointer of current section header
 
     printf("Section header %d: ", i);
-    Elf64_Shdr *section_name_table = (Elf64_Shdr*)(elf_header->e_shentsize * elf_header->e_shstrndx + sec_header_data);
-    printf("name=%s, ", (char *)data + section_name_table->sh_offset + curr_section->sh_name);
-    printf("type=%lx, ", (long unsigned int)curr_section->sh_type);
-    printf("offset=%lx, ", curr_section->sh_offset);
-    printf("size=%lx", curr_section->sh_size);
+    Elf64_Shdr *section_name_table = (Elf64_Shdr*)(elf_header->e_shentsize * elf_header->e_shstrndx + sec_header_data); // pointer of string table of sections
+    printf("name=%s, ", (char *)data + section_name_table->sh_offset + curr_section->sh_name);  // find name based on offsets
+    printf("type=%lx, ", (long unsigned int)curr_section->sh_type); // find type
+    printf("offset=%lx, ", curr_section->sh_offset);  // find offset
+    printf("size=%lx", curr_section->sh_size);  // find size
     printf("\n");
 
     if (strcmp((char*)(data + section_name_table->sh_offset + curr_section->sh_name), ".symtab") == 0) symtab = curr_section;

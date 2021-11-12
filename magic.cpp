@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
 
   void *data = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
-  if (data == NULL) {
+  if (data == (void*)-1) {
     cout << "Error with memory mapping" << endl;
     return 1;
   }

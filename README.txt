@@ -5,4 +5,4 @@ Project Members:
 Contributions:
 Assignment 4:
     Tuxun Lu: implemented output for section headers
-    Jiarui Chen: 
+    Jiarui Chen: implemented output for symbols
